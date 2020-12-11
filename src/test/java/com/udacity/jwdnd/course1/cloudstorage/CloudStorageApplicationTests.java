@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -12,17 +13,18 @@ class CloudStorageApplicationTests {
 
 	@LocalServerPort
 	private int port;
-
 	private WebDriver driver;
+	private String baseUrl;
 
 	@BeforeAll
 	static void beforeAll() {
-		WebDriverManager.chromedriver().setup();
+		WebDriverManager.edgedriver().setup();
 	}
 
 	@BeforeEach
 	public void beforeEach() {
-		this.driver = new ChromeDriver();
+		this.driver = new EdgeDriver();
+		baseUrl = String.format("http://localhost:%d",port);
 	}
 
 	@AfterEach
@@ -34,8 +36,23 @@ class CloudStorageApplicationTests {
 
 	@Test
 	public void getLoginPage() {
-		driver.get("http://localhost:" + this.port + "/login");
+		driver.get(baseUrl + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void getLoginPageFromAnywhereElse() {
+		driver.get(baseUrl);
+		Assertions.assertEquals("Login", driver.getTitle());
+		driver.get(baseUrl+"/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void getCssWithoutLogin() {
+		String bootstrapCss = baseUrl + "/css/bootstrap.min.css";
+		driver.get(bootstrapCss);
+		Assertions.assertEquals(bootstrapCss, driver.getCurrentUrl());
 	}
 
 }
