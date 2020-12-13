@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
-
     private final String password = "123";
     @LocalServerPort
     private int port;

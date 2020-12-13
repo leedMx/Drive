@@ -25,10 +25,7 @@ public class AuthenticationService implements AuthenticationProvider {
         System.out.println(authentication);
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        System.out.println(username);
-        System.out.printf(password);
         UserModel user = userService.getUser(username);
-        System.out.println(user);
         if (user != null)
             if (passwordIsCorrect(password, user))
                 return token(user);
