@@ -9,5 +9,5 @@ public class FileModel {
     private String contentType;
     private String fileSize;
     private Integer userId;
-    private byte[] data;
+    private byte[] fileData;
 }

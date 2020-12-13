@@ -21,15 +21,23 @@ public class FilesService {
     public int upload(MultipartFile fileUpload, String username)
             throws IOException {
         FileModel file = new FileModel();
-        file.setUserId(userService.getUser(username).getUserid());
+        file.setUserId(userService.getId(username));
         file.setContentType(fileUpload.getContentType());
         file.setFileName(fileUpload.getOriginalFilename());
         file.setFileSize(String.valueOf(fileUpload.getSize()));
-        file.setData(fileUpload.getBytes());
+        file.setFileData(fileUpload.getBytes());
         return fileMapper.insert(file);
     }
 
     public List<FileModel> filesOf(String username){
-        return fileMapper.filesForId(userService.getUser(username).getUserid());
+        return fileMapper.filesForId(userService.getId(username));
+    }
+
+    public int delete(Integer fileId, String username) {
+        return fileMapper.deleteFileIdForUser(fileId,userService.getId(username));
+    }
+
+    public FileModel getFile(Integer fileId, String username) {
+        return fileMapper.getFileIdForUser(fileId,userService.getId(username));
     }
 }

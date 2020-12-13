@@ -25,7 +25,6 @@ public class UserService {
         user.setSalt(createSalt());
         user.setPassword(hashPassword(user));
         int insert = userMapper.insert(user);
-        System.out.println(user);
         return insert;
     }
 
@@ -42,5 +41,9 @@ public class UserService {
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
+    }
+
+    public Integer getId(String username) {
+        return userMapper.getUser(username).getUserid();
     }
 }
