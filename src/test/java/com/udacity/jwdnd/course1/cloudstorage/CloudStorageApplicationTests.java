@@ -119,4 +119,24 @@ class CloudStorageApplicationTests {
         assertEquals(expected,actual);
     }
 
+    @Test
+    public void successfulLogoutRedirectsToLogin() {
+        driver.get(baseUrl + "/signup");
+        SignupPage signupPage = new SignupPage(driver);
+        signupPage.signUp("fn", "ln",
+                "logout", "123");
+
+        driver.get(baseUrl + "/login");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.logIn("logout", "123");
+
+        driver.get(baseUrl + "/home");
+        HomePage homePage = new HomePage(driver);
+        homePage.logout();
+
+        String expected = baseUrl + "/login";
+        String actual = driver.getCurrentUrl();
+        assertEquals(expected,actual);
+    }
+
 }

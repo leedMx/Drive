@@ -1,8 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.Model.User;
+import com.udacity.jwdnd.course1.cloudstorage.Model.UserModel;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +24,7 @@ public class SignupController {
     }
 
     @PostMapping
-    String post(@ModelAttribute User user, Model model){
+    String post(@ModelAttribute UserModel user, Model model){
         if (userService.isUsernameAvailable(user.getUsername())) {
             createUser(user, model);
         }
@@ -34,7 +33,7 @@ public class SignupController {
         return "signup";
     }
 
-    private void createUser(@ModelAttribute User user, Model model) {
+    private void createUser(@ModelAttribute UserModel user, Model model) {
         if (userService.createUser(user) > 0)
             model.addAttribute("signupSuccess", "success");
         else
