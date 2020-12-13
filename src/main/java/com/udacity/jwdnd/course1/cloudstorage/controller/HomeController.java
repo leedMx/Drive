@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -20,8 +21,8 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    String get(@ModelAttribute("currentNote") NoteModel currentNote,
-               Model model, Authentication auth){
+    String get(@ModelAttribute("emptyNote")NoteModel note,
+            Model model, Authentication auth){
         model.addAttribute("files",filesService.getFiles(auth.getName()));
         model.addAttribute("notes",notesService.getNotes(auth.getName()));
         return "home";

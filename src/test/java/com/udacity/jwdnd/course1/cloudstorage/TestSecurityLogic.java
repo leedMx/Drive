@@ -1,39 +1,11 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
-    private final String password = "123";
-    @LocalServerPort
-    private int port;
-    private WebDriver driver;
-    private String baseUrl;
 
-    @BeforeAll
-    static void beforeAll() {
-        WebDriverManager.edgedriver().setup();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        this.driver = new EdgeDriver();
-        baseUrl = String.format("http://localhost:%d", port);
-    }
-
-    @AfterEach
-    public void afterEach() {
-        if (this.driver != null) {
-            driver.quit();
-        }
-    }
+class TestSecurityLogic extends TestWebApp {
 
     @Test
     public void loginMustBeAvailable() {
@@ -68,7 +40,7 @@ class CloudStorageApplicationTests {
     public void signupShowsSuccessMessage() {
         driver.get(baseUrl + "/signup");
         SignupPage page = new SignupPage(driver);
-        page.signUp("fn", "ln", "deleteMe", password);
+        page.signUp("fn", "ln", "deleteMe", PASSWORD);
         page.readSuccess();
     }
 
@@ -86,11 +58,11 @@ class CloudStorageApplicationTests {
 
         driver.get(baseUrl + "/signup");
         page = new SignupPage(driver);
-        page.signUp("fn", "ln", "duplicate", password);
+        page.signUp("fn", "ln", "duplicate", PASSWORD);
 
         driver.get(baseUrl + "/signup");
         page = new SignupPage(driver);
-        page.signUp("fn", "ln", "duplicate", password);
+        page.signUp("fn", "ln", "duplicate", PASSWORD);
         page.readError();
     }
 
@@ -107,11 +79,11 @@ class CloudStorageApplicationTests {
         driver.get(baseUrl + "/signup");
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signUp("fn", "ln",
-                "successful", "123");
+                "successful", PASSWORD);
 
         driver.get(baseUrl + "/login");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("successful", "123");
+        loginPage.logIn("successful", PASSWORD);
 
         String expected = baseUrl + "/home";
         String actual = driver.getCurrentUrl();
@@ -123,11 +95,11 @@ class CloudStorageApplicationTests {
         driver.get(baseUrl + "/signup");
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signUp("fn", "ln",
-                "logout", "123");
+                "logout", PASSWORD);
 
         driver.get(baseUrl + "/login");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("logout", "123");
+        loginPage.logIn("logout", PASSWORD);
 
         driver.get(baseUrl + "/home");
         HomePage homePage = new HomePage(driver);
