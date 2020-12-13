@@ -29,6 +29,10 @@ public class UserService {
         return insert;
     }
 
+    public User getUser(String username){
+        return userMapper.getUser(username);
+    }
+
     private String hashPassword(User user) {
         return hashService.getHashedValue(user.getPassword(), user.getSalt());
     }
