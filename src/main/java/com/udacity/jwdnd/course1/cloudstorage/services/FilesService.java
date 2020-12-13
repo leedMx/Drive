@@ -29,7 +29,7 @@ public class FilesService {
         return fileMapper.insert(file);
     }
 
-    public List<FileModel> filesOf(String username){
+    public List<FileModel> getFiles(String username){
         return fileMapper.filesForId(userService.getId(username));
     }
 
