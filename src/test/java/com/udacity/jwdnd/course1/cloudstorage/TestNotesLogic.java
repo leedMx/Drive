@@ -8,14 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TestNotesLogic extends TestWebApp {
     @Test
     public void notesLoadsEmpty(){
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "notes",PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("notes",PASSWORD);
+        signupAndLogin("notes");
 
         driver.get(baseUrl + "/home");
         NotesPage page = new NotesPage(driver);
@@ -25,14 +18,7 @@ public class TestNotesLogic extends TestWebApp {
 
     @Test
     public void noteCreation(){
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "noteCreation",PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("noteCreation",PASSWORD);
+        signupAndLogin("noteCreation");
 
         driver.get(baseUrl + "/home");
         NotesPage page = new NotesPage(driver);
@@ -49,14 +35,7 @@ public class TestNotesLogic extends TestWebApp {
 
     @Test
     public void noteDeletion(){
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "noteDeletion",PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("noteDeletion",PASSWORD);
+        signupAndLogin("noteDeletion");
 
         driver.get(baseUrl + "/home");
         NotesPage page = new NotesPage(driver);
@@ -77,14 +56,8 @@ public class TestNotesLogic extends TestWebApp {
 
     @Test
     public void noteModification(){
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "noteModification",PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("noteModification",PASSWORD);
+        String username = "noteModification";
+        signupAndLogin(username);
 
         driver.get(baseUrl + "/home");
         NotesPage page = new NotesPage(driver);
@@ -101,4 +74,5 @@ public class TestNotesLogic extends TestWebApp {
         assertEquals(title, page.getFirstNoteTitle());
         assertEquals(description, page.getFirstNoteDescription());
     }
+
 }

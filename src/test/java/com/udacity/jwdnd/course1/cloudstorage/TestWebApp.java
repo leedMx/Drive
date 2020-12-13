@@ -34,4 +34,15 @@ public class TestWebApp {
             driver.quit();
         }
     }
+
+    protected void signupAndLogin(String username) {
+        driver.get(baseUrl + "/signup");
+        SignupPage signupPage = new SignupPage(driver);
+        signupPage.signUp("fn", "ln",
+                username, PASSWORD);
+
+        driver.get(baseUrl + "/login");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.logIn(username, PASSWORD);
+    }
 }

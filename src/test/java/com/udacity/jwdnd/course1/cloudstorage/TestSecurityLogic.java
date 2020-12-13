@@ -76,14 +76,7 @@ class TestSecurityLogic extends TestWebApp {
 
     @Test
     public void successfulLoginRedirectsToHome() {
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "successful", PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("successful", PASSWORD);
+        signupAndLogin("successful");
 
         String expected = baseUrl + "/home";
         String actual = driver.getCurrentUrl();
@@ -92,14 +85,7 @@ class TestSecurityLogic extends TestWebApp {
 
     @Test
     public void successfulLogoutRedirectsToLogin() {
-        driver.get(baseUrl + "/signup");
-        SignupPage signupPage = new SignupPage(driver);
-        signupPage.signUp("fn", "ln",
-                "logout", PASSWORD);
-
-        driver.get(baseUrl + "/login");
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.logIn("logout", PASSWORD);
+        signupAndLogin("logout");
 
         driver.get(baseUrl + "/home");
         HomePage homePage = new HomePage(driver);
