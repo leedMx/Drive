@@ -24,4 +24,7 @@ public interface FileMapper {
 
     @Delete("DELETE FROM files WHERE userId=#{userId} AND fileId=#{fileId}")
     int deleteFileIdForUser(Integer fileId, Integer userId);
+
+    @Select("SELECT * FROM files WHERE userId=#{userId} AND fileName=#{fileName}")
+    List<FileModel> getByFilename(Integer userId, String fileName);
 }

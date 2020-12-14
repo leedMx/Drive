@@ -20,24 +20,31 @@ public class FilesService {
 
     public int upload(MultipartFile fileUpload, String username)
             throws IOException {
-        FileModel file = new FileModel();
-        file.setUserId(userService.getId(username));
-        file.setContentType(fileUpload.getContentType());
-        file.setFileName(fileUpload.getOriginalFilename());
-        file.setFileSize(String.valueOf(fileUpload.getSize()));
-        file.setFileData(fileUpload.getBytes());
-        return fileMapper.insert(file);
+        String filename = fileUpload.getOriginalFilename();
+        Integer userId = userService.getId(username);
+        if (fileMapper.getByFilename(userId, filename).size() > 0) {
+            throw new RuntimeException(
+                    "You cannot upload two files with the same name");
+        } else {
+            FileModel file = new FileModel();
+            file.setUserId(userId);
+            file.setContentType(fileUpload.getContentType());
+            file.setFileName(filename);
+            file.setFileSize(String.valueOf(fileUpload.getSize()));
+            file.setFileData(fileUpload.getBytes());
+            return fileMapper.insert(file);
+        }
     }
 
-    public List<FileModel> getFiles(String username){
+    public List<FileModel> getFiles(String username) {
         return fileMapper.filesForId(userService.getId(username));
     }
 
     public int delete(Integer fileId, String username) {
-        return fileMapper.deleteFileIdForUser(fileId,userService.getId(username));
+        return fileMapper.deleteFileIdForUser(fileId, userService.getId(username));
     }
 
     public FileModel getFile(Integer fileId, String username) {
-        return fileMapper.getFileIdForUser(fileId,userService.getId(username));
+        return fileMapper.getFileIdForUser(fileId, userService.getId(username));
     }
 }
