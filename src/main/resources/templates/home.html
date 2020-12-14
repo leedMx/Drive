@@ -139,7 +139,8 @@
                             <table class="table table-striped"  id="credentialTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 20%" scope="col"></th>
+                                        <th style="width: 10%" scope="col"></th>
+                                        <th style="width: 10%" scope="col"></th>
                                         <th style="width: 35%" scope="col">URL</th>
                                         <th style="width: 20%" scope="col">Username</th>
                                         <th style="width: 25%" scope="col">Password</th>
@@ -148,8 +149,14 @@
                                 <tbody>
                                 <tr th:each="credential:${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
+                                        <button type="button" class="btn btn-success" id="editCredential"
+                                                th:onclick="javascript: showCredentialModal( [[${credential.credentialId}]], [[${credential.url}]], [[${credential.username}]], [[${encrypt.decryptValue(credential.password, credential.key)}]] )">Edit</button>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/deleteCredential}" method="POST">
+                                            <input type="hidden" name="id" th:value="${credential.credentialId}">
+                                            <input type="submit" id="deleteCredential" value="Delete" class="btn btn-danger">
+                                        </form>
                                     </td>
                                     <th th:text="${credential.url}" scope="row" id="credential-url-row">Example Credential URL</th>
                                     <td th:text="${credential.username}" id="credential-username-row">Example Credential Username</td>

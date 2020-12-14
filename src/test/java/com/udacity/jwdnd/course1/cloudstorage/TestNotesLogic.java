@@ -11,9 +11,8 @@ public class TestNotesLogic extends TestWebApp {
         signupAndLogin("notes");
 
         driver.get(baseUrl + "/home");
-        NotesPage page = new NotesPage(driver);
         assertThrows(org.openqa.selenium.NoSuchElementException.class,
-                ()->page.getFirstNoteTitle());
+                ()-> new NotesPage(driver).getFirstNoteTitle());
     }
 
     @Test
@@ -49,9 +48,8 @@ public class TestNotesLogic extends TestWebApp {
         page.deleteFirstNote();
 
         driver.get(baseUrl + "/home");
-        NotesPage test = new NotesPage(driver);
         assertThrows(org.openqa.selenium.NoSuchElementException.class,
-                ()->test.getFirstNoteTitle());
+                ()-> new NotesPage(driver).getFirstNoteTitle());
     }
 
     @Test

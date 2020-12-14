@@ -1,10 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.mapper;
 
 import com.udacity.jwdnd.course1.cloudstorage.Model.CredentialModel;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,4 +20,8 @@ public interface CredentialMapper {
             "key=#{key}, password=#{password}" +
             "WHERE credentialId=#{credentialId} AND userId=#{userId}")
     int update(CredentialModel credential);
+
+    @Delete("DELETE FROM credentials WHERE " +
+            "credentialId=#{credentialId} AND userId=#{userId}")
+    int delete(Integer credentialId, Integer userId);
 }

@@ -47,9 +47,8 @@ class TestSecurityLogic extends TestWebApp {
     @Test
     public void testSignupShowsNoErrorMessage() {
         driver.get(baseUrl + "/signup");
-        SignupPage page = new SignupPage(driver);
         assertThrows(org.openqa.selenium.NoSuchElementException.class,
-                () -> page.readError());
+                () -> new SignupPage(driver).readError());
     }
 
     @Test

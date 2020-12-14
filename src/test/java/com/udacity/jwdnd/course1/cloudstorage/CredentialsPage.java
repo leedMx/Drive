@@ -23,6 +23,12 @@ public class CredentialsPage extends BasePage{
     private WebElement inputPassword;
     @FindBy(id="credentialSubmit")
     private WebElement submit;
+    @FindBy(id="editCredential")
+    private WebElement edit;
+    @FindBy(id = "credentialModalLabel")
+    private WebElement modal;
+    @FindBy(id = "deleteCredential")
+    private WebElement deleteFirstCredential;
 
     public CredentialsPage(WebDriver driver) {
         super(driver);
@@ -45,9 +51,37 @@ public class CredentialsPage extends BasePage{
     public void insertCredential(String url, String user, String password) {
         waitAndClick(buttonForModal);
         waitFor(inputUrl);
+        updateCredential(url,user,password);
+    }
+
+    public void openEditDialog() {
+        waitAndClick(edit);
+        waitFor(modal);
+    }
+
+    public String readUrlInput() {
+        return inputUrl.getAttribute("value");
+    }
+
+    public String readUsernameInput() {
+        return inputUsername.getAttribute("value");
+    }
+
+    public String readPasswordInput() {
+        return inputPassword.getAttribute("value");
+    }
+
+    public void updateCredential(String url, String user, String password) {
+        inputUrl.clear();
         inputUrl.sendKeys(url);
+        inputUsername.clear();
         inputUsername.sendKeys(user);
+        inputPassword.clear();
         inputPassword.sendKeys(password);
         submit.submit();
+    }
+
+    public void deleteFirstCredential() {
+        deleteFirstCredential.submit();
     }
 }

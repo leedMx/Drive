@@ -10,5 +10,4 @@ public class CredentialModel {
     private String key;
     private String password;
     private Integer userId;
-    private String encrypted;
 }
