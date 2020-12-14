@@ -5,9 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+class LoginPage {
     @FindBy(className="alert-danger")WebElement error;
-    @FindBy(className="alert-dark")WebElement logout;
+    @FindBy(className="alert-dark")WebElement info;
     @FindBy(id="inputUsername")WebElement username;
     @FindBy(id="inputPassword")WebElement password;
     @FindBy(className="btn-primary")WebElement submit;
@@ -22,5 +22,9 @@ public class LoginPage {
     }
     String readError(){
         return error.getText();
+    }
+
+    String readInfo() {
+        return info.getText();
     }
 }

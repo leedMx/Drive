@@ -27,6 +27,7 @@ public class SignupController {
     String post(@ModelAttribute UserModel user, Model model){
         if (userService.isUsernameAvailable(user.getUsername())) {
             createUser(user, model);
+            return "redirect:/login?signup=true";
         }
         else
             model.addAttribute("signupError","Username not available");

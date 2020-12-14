@@ -1,6 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,11 +33,16 @@ class TestSecurityLogic extends TestWebApp {
     }
 
     @Test
-    public void signupShowsSuccessMessage() {
+    public void successfulSignupRedirectsToLoginAndShowsSuccessMessage() throws InterruptedException {
         driver.get(baseUrl + "/signup");
-        SignupPage page = new SignupPage(driver);
-        page.signUp("fn", "ln", "deleteMe", PASSWORD);
-        page.readSuccess();
+        SignupPage signup = new SignupPage(driver);
+        signup.signUp("fn", "ln", "deleteMe", PASSWORD);
+
+        String expected= baseUrl + "/login?signup=true";
+        String actual = driver.getCurrentUrl();
+        assertEquals(expected,actual);
+        LoginPage page = new LoginPage(driver);
+        page.readInfo();
     }
 
     @Test
@@ -76,16 +83,19 @@ class TestSecurityLogic extends TestWebApp {
     }
 
     @Test
-    public void successfulLogoutRedirectsToLogin() {
+    public void successfulLogoutRedirectsToLoginAndDisplaysInfo() {
         signupAndLogin("logout");
 
         driver.get(baseUrl + "/home");
         HomePage homePage = new HomePage(driver);
         homePage.logout();
 
-        String expected = baseUrl + "/login";
+        String expected = baseUrl + "/login?logout=true";
         String actual = driver.getCurrentUrl();
         assertEquals(expected, actual);
+
+        LoginPage page = new LoginPage(driver);
+        page.readInfo();
     }
 
     @Test
