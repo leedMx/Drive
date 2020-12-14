@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.Model.NoteModel;
+import com.udacity.jwdnd.course1.cloudstorage.services.CredentialsService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FilesService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
 import org.springframework.security.core.Authentication;
@@ -8,23 +9,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
-    private FilesService filesService;
-    private NotesService notesService;
+    private FilesService files;
+    private NotesService notes;
+    private CredentialsService credentials;
 
-    public HomeController(FilesService filesService, NotesService notesService) {
-        this.filesService = filesService;
-        this.notesService = notesService;
+    public HomeController(FilesService filesService, NotesService notesService, CredentialsService credentialsService) {
+        this.files = filesService;
+        this.notes = notesService;
+        this.credentials = credentialsService;
     }
 
     @GetMapping("/home")
     String get(@ModelAttribute("emptyNote")NoteModel note,
             Model model, Authentication auth){
-        model.addAttribute("files",filesService.getFiles(auth.getName()));
-        model.addAttribute("notes",notesService.getNotes(auth.getName()));
+        String user = auth.getName();
+        model.addAttribute("files", files.getFiles(user));
+        model.addAttribute("notes", notes.getNotes(user));
+        model.addAttribute("credentials", credentials.getCredentials(user));
         return "home";
     }
 }
