@@ -9,7 +9,7 @@ class TestSecurityLogic extends TestWebApp {
 
     @Test
     public void loginMustBeAvailable() {
-        assertAvailable("/login");
+        assertUrlIsAvailable("/login");
     }
 
     @Test
@@ -22,18 +22,12 @@ class TestSecurityLogic extends TestWebApp {
 
     @Test
     public void cssMustBeAvailable() {
-        assertAvailable("/css/bootstrap.min.css");
+        assertUrlIsAvailable("/css/bootstrap.min.css");
     }
 
     @Test
     public void signUpMustBeAccessible() {
-        assertAvailable("/signup");
-    }
-
-    private void assertAvailable(String suffix) {
-        String url = baseUrl + suffix;
-        driver.get(url);
-        assertEquals(url, driver.getCurrentUrl());
+        assertUrlIsAvailable("/signup");
     }
 
     @Test
@@ -76,7 +70,6 @@ class TestSecurityLogic extends TestWebApp {
     @Test
     public void successfulLoginRedirectsToHome() {
         signupAndLogin("successful");
-
         String expected = baseUrl + "/home";
         String actual = driver.getCurrentUrl();
         assertEquals(expected,actual);
@@ -92,7 +85,20 @@ class TestSecurityLogic extends TestWebApp {
 
         String expected = baseUrl + "/login";
         String actual = driver.getCurrentUrl();
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void homeIsNotAccesibleAfterLogout() {
+        signupAndLogin("logout");
+
+        String home = baseUrl + "/home";
+        driver.get(home);
+        HomePage homePage = new HomePage(driver);
+        homePage.logout();
+
+        driver.get(home);
+        assertNotEquals(home, driver.getCurrentUrl());
     }
 
 }

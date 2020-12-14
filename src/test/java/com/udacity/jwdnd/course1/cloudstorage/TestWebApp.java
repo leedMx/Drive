@@ -9,6 +9,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestWebApp {
     @LocalServerPort
@@ -44,5 +46,11 @@ public class TestWebApp {
         driver.get(baseUrl + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.logIn(username, PASSWORD);
+    }
+
+    protected void assertUrlIsAvailable(String suffix) {
+        String url = baseUrl + suffix;
+        driver.get(url);
+        assertEquals(url, driver.getCurrentUrl());
     }
 }
