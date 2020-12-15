@@ -23,15 +23,13 @@ public class FilesService {
 
     public int upload(MultipartFile fileUpload, String username)
             throws IOException {
-        System.out.println(fileUpload.getOriginalFilename());
-        System.out.println(fileUpload.getSize());
         if (fileMapper.getByFilename(userService.getId(username),
                 fileUpload.getOriginalFilename()).size() > 0)
             throw new RuntimeException(
-                    "You cannot upload two files with the same name");
+                    "You cannot upload two files with the same name.");
         if (fileUpload.getSize() > maximum)
             throw new RuntimeException(
-                    "The file exceeds the maximum permitted size");
+                    "The file exceeds the maximum permitted size.");
         FileModel file = new FileModel();
         file.setUserId(userService.getId(username));
         file.setContentType(fileUpload.getContentType());

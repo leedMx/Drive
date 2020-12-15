@@ -22,7 +22,7 @@ public class CredentialsController {
         String user = authentication.getName();
         if (service.insertOrUpdate(credential,user) < 1)
             model.addAttribute("error",
-                    "Error saving the credential");
+                    "Error saving the credential.");
         return "result";
     }
 
@@ -32,7 +32,7 @@ public class CredentialsController {
         String user = authentication.getName();
         if (service.delete(id,user) < 1){
             model.addAttribute("error",
-                    "The credential doesn't exist or doesn't belong to you");
+                    "The credential doesn't exist or doesn't belong to you.");
         }
         return "result";
     }

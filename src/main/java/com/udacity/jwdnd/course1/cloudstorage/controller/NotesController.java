@@ -22,7 +22,7 @@ class NotesController {
         String user = authentication.getName();
         if (notesService.insertOrUpdate(noteModel, user) < 1)
              model.addAttribute("error",
-                     "Error inserting or updating note");
+                     "Error inserting or updating note.");
         return "result";
     }
 

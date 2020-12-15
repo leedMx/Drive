@@ -10,7 +10,7 @@ public class CustomErrorController implements ErrorController {
     @RequestMapping("/error")
     public String redirectToHome(Model model){
         model.addAttribute("error",
-                "This is not a valid URL");
+                "This is not a valid URL.");
         return "result";
     }
 
