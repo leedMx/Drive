@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.Model.FileModel;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,8 @@ import java.util.List;
 public class FilesService {
     private UserService userService;
     private FileMapper fileMapper;
+    @Value("${maxUploadSize}")
+    private Long maximum;
 
     public FilesService(UserService userService, FileMapper fileMapper) {
         this.userService = userService;
@@ -20,20 +23,22 @@ public class FilesService {
 
     public int upload(MultipartFile fileUpload, String username)
             throws IOException {
-        String filename = fileUpload.getOriginalFilename();
-        Integer userId = userService.getId(username);
-        if (fileMapper.getByFilename(userId, filename).size() > 0) {
+        System.out.println(fileUpload.getOriginalFilename());
+        System.out.println(fileUpload.getSize());
+        if (fileMapper.getByFilename(userService.getId(username),
+                fileUpload.getOriginalFilename()).size() > 0)
             throw new RuntimeException(
                     "You cannot upload two files with the same name");
-        } else {
-            FileModel file = new FileModel();
-            file.setUserId(userId);
-            file.setContentType(fileUpload.getContentType());
-            file.setFileName(filename);
-            file.setFileSize(String.valueOf(fileUpload.getSize()));
-            file.setFileData(fileUpload.getBytes());
-            return fileMapper.insert(file);
-        }
+        if (fileUpload.getSize() > maximum)
+            throw new RuntimeException(
+                    "The file exceeds the maximum permitted size");
+        FileModel file = new FileModel();
+        file.setUserId(userService.getId(username));
+        file.setContentType(fileUpload.getContentType());
+        file.setFileName(fileUpload.getOriginalFilename());
+        file.setFileSize(String.valueOf(fileUpload.getSize()));
+        file.setFileData(fileUpload.getBytes());
+        return fileMapper.insert(file);
     }
 
     public List<FileModel> getFiles(String username) {
