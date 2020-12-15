@@ -19,8 +19,8 @@ public class HomeController {
     private NotesService notes;
     private CredentialsService credentials;
     private EncryptionService encryptionService;
-    @Value("${maxUploadSize}")
-    private String maxUploadSize;
+    @Value("${maxUploadSizeInMegaBytes}")
+    private String maxUpload;
 
 
     public HomeController(FilesService files, NotesService notes,
@@ -40,7 +40,7 @@ public class HomeController {
         model.addAttribute("notes", notes.getNotes(user));
         model.addAttribute("credentials", credentials.getCredentials(user));
         model.addAttribute("encrypt",encryptionService);
-        model.addAttribute("maxUploadSize",maxUploadSize);
+        model.addAttribute("maxUpload",maxUpload);
         return "home";
     }
 

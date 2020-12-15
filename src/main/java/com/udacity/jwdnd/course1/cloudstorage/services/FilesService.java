@@ -13,8 +13,8 @@ import java.util.List;
 public class FilesService {
     private UserService userService;
     private FileMapper fileMapper;
-    @Value("${maxUploadSizeInBytes}")
-    private Long maximum;
+    @Value("${maxUploadSizeInMegaBytes}")
+    private Integer max;
 
     public FilesService(UserService userService, FileMapper fileMapper) {
         this.userService = userService;
@@ -27,9 +27,9 @@ public class FilesService {
                 fileUpload.getOriginalFilename()).size() > 0)
             throw new RuntimeException(
                     "You cannot upload two files with the same name.");
-        if (fileUpload.getSize() > maximum)
+        if (fileUpload.getSize() > (1024*1024*max))
             throw new RuntimeException(
-                    "The file exceeds the maximum permitted size.");
+                    "The file exceeds the max permitted size.");
         FileModel file = new FileModel();
         file.setUserId(userService.getId(username));
         file.setContentType(fileUpload.getContentType());
