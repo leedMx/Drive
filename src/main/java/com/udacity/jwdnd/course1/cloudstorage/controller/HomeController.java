@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialsService;
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FilesService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ public class HomeController {
     private NotesService notes;
     private CredentialsService credentials;
     private EncryptionService encryptionService;
+    @Value("${maxUploadSize}")
+    private String maxUploadSize;
+
 
     public HomeController(FilesService files, NotesService notes,
                           CredentialsService credentials,
@@ -36,6 +40,7 @@ public class HomeController {
         model.addAttribute("notes", notes.getNotes(user));
         model.addAttribute("credentials", credentials.getCredentials(user));
         model.addAttribute("encrypt",encryptionService);
+        model.addAttribute("maxUploadSize",maxUploadSize);
         return "home";
     }
 

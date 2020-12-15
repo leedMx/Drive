@@ -13,7 +13,7 @@ import java.util.List;
 public class FilesService {
     private UserService userService;
     private FileMapper fileMapper;
-    @Value("${maxUploadSize}")
+    @Value("${maxUploadSizeInBytes}")
     private Long maximum;
 
     public FilesService(UserService userService, FileMapper fileMapper) {
